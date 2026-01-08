@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Layout from '../components/Layout';
-import IssueCard from '../components/IssueCard';
-import CreateIssueModal from '../components/CreateIssueModal';
+const IssueCard = lazy(() => import('../components/IssueCard'));
+const CreateIssueModal = lazy(() => import('../components/CreateIssueModal'));
 import { getAllIssues, updateIssue } from '../utils/firestore';
 import { Plus, Filter, Loader2, ClipboardList } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
@@ -176,23 +176,27 @@ export default function Dashboard() {
                         )}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filteredIssues.map((issue) => (
-                            <IssueCard
-                                key={issue.id}
-                                issue={issue}
-                                onStatusChange={handleStatusChange}
-                            />
-                        ))}
-                    </div>
+                    <Suspense fallback={<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">Loading issues...</div>}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {filteredIssues.map((issue) => (
+                                <IssueCard
+                                    key={issue.id}
+                                    issue={issue}
+                                    onStatusChange={handleStatusChange}
+                                />
+                            ))}
+                        </div>
+                    </Suspense>
                 )}
             </div>
 
-            <CreateIssueModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onIssueCreated={fetchIssues}
-            />
+            <Suspense fallback={null}>
+                <CreateIssueModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onIssueCreated={fetchIssues}
+                />
+            </Suspense>
         </Layout>
     );
 }
