@@ -4,7 +4,7 @@ A modern, production-ready issue tracking application built with React, Firebase
 
 ## 🚀 Live Demo
 
-[View Live Demo](#) _(Deploy to Vercel and add link here)_
+[View Live Demo](#) _(https://dev-navy-ten.vercel.app/login)_
 
 ## 📋 Features
 
