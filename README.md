@@ -290,7 +290,7 @@ MIT License - feel free to use for your own projects!
 
 ## 👨‍💻 Author
 
-Built with devesh tyagi 
+Built with Devesh Tyagi 
 
 ---
 
